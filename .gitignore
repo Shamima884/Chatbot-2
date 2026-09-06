@@ -1,4 +1,4 @@
-# Secrets - never commit your API key
+# Secrets - never commit your API keys
 .env
 
 # Python
@@ -15,3 +15,8 @@ venv/
 
 # Logs
 *.log
+
+# Local installers / temp
+node.zip
+node_extracted/
+*.log.txt

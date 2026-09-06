@@ -1,0 +1,20 @@
+# Render Blueprint for the TMMCH Chatbot
+# Docs: https://render.com/docs/blueprint-spec
+#
+# NOTE: GROQ_API_KEY is intentionally NOT listed here to avoid committing the
+# secret. It must be set as an environment variable on the service (via the
+# Render dashboard or API). The chatbot will not answer questions without it.
+services:
+  - type: web
+    name: chatbot-2
+    runtime: python
+    repo: https://github.com/Shamima884/Chatbot-2
+    branch: main
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn main:app
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.10
