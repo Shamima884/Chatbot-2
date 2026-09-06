@@ -104,7 +104,7 @@ async function resetConversation() {
   }
   addMessage(
     "assistant",
-    "Conversation reset. 👋 Ask me anything about **you** — or edit `MY_INFO.md` to teach me new things!"
+    "Conversation reset. 👋 Ask me anything about **TMMCH** — or edit `MY_INFO.md` to teach me more!"
   );
 }
 
@@ -121,6 +121,7 @@ resetBtn.addEventListener("click", resetConversation);
 
 addMessage(
   "assistant",
-  "Hi! 👋 I'm your personal assistant, powered by Groq. Ask me anything about **you** — " +
-    "your background, interests, skills, and more. Edit `MY_INFO.md` to teach me new things."
+  "Hi! 👋 I'm the TMMCH assistant, powered by Groq. Ask me anything about **Tairunnessa " +
+    "Memorial Medical College & Hospital** — admissions, departments, hospital services, " +
+    "contacts and more. Edit `MY_INFO.md` to teach me new things."
 );

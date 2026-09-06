@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Personal Chatbot</title>
+  <title>TMMCH Chatbot</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <div class="app">
-    <!-- Sidebar: what the bot knows about you -->
+    <!-- Sidebar: what the bot knows -->
     <aside class="sidebar">
       <div class="logo">🤖</div>
-      <h2>My Chatbot</h2>
-      <p class="tagline">Ask it anything about you.</p>
+      <h2>TMMCH Chatbot</h2>
+      <p class="tagline">Ask it anything about TMMCH.</p>
 
       <hr>
 
       <h3>🧠 Bot's knowledge</h3>
       <div class="info-box">
-        {% if personal_info %}
-          <pre>{{ personal_info }}</pre>
+        {% if knowledge %}
+          <pre>{{ knowledge }}</pre>
         {% else %}
           <p class="hint">No info yet.<br>Edit <code>MY_INFO.md</code> in the project folder.</p>
         {% endif %}
@@ -32,7 +32,7 @@
     <!-- Chat area -->
     <main class="chat">
       <header class="chat-header">
-        <h1>💬 Personal Assistant</h1>
+        <h1>💬 TMMCH Assistant</h1>
         <span class="status-dot" aria-hidden="true"></span>
         <span class="status-text">online</span>
       </header>

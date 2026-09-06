@@ -1,10 +1,11 @@
-"""Personal chatbot web app.
+"""Chatbot web app for Tairunnessa Memorial Medical College & Hospital (TMMCH).
 
 Runs a small Flask server on http://127.0.0.1:5000 that chats with the Groq API.
-The bot's personality/knowledge comes from the MY_INFO.md file in this folder.
+The bot's knowledge comes from the MY_INFO.md file in this folder.
 """
 
 import os
+import time
 
 from dotenv import load_dotenv
 from flask import Flask, jsonify, render_template, request
@@ -17,15 +18,15 @@ app = Flask(__name__)
 INFO_FILE = "MY_INFO.md"
 
 SYSTEM_PROMPT_TEMPLATE = (
-    "You are a friendly personal assistant chatbot. You answer questions about the "
-    "user using the information provided below. If the information does not contain "
-    "an answer, say you are not sure rather than guessing. Be concise, warm and helpful.\n\n"
-    "=== USER INFORMATION ===\n"
+    "You are a friendly assistant chatbot. Answer questions using the knowledge base "
+    "provided below. If the information does not contain an answer, say you are not "
+    "sure rather than guessing. Be concise, accurate, warm and helpful.\n\n"
+    "=== KNOWLEDGE BASE ===\n"
 )
 
 
-def load_personal_info() -> str:
-    """Read the user's personal info file, returning an empty string if it is missing."""
+def load_knowledge_base() -> str:
+    """Read the bot's knowledge file, returning an empty string if it is missing."""
     try:
         with open(INFO_FILE, "r", encoding="utf-8") as f:
             return f.read().strip()
@@ -44,7 +45,7 @@ HISTORY_LIMIT = 20
 
 @app.route("/")
 def index():
-    return render_template("index.html", personal_info=load_personal_info())
+    return render_template("index.html", knowledge=load_knowledge_base())
 
 
 @app.route("/api/chat", methods=["POST"])
@@ -54,23 +55,33 @@ def chat():
     if not user_message:
         return jsonify({"error": "Message cannot be empty."}), 400
 
-    # Build the prompt with the latest info file contents
-    personal_info = load_personal_info()
-    if not personal_info:
-        personal_info = "(No information has been added to MY_INFO.md yet.)"
-    system_prompt = SYSTEM_PROMPT_TEMPLATE + personal_info
+    # Build the prompt with the latest knowledge file contents
+    knowledge_base = load_knowledge_base()
+    if not knowledge_base:
+        knowledge_base = "(The knowledge file MY_INFO.md is currently empty.)"
+    system_prompt = SYSTEM_PROMPT_TEMPLATE + knowledge_base
 
     messages = [{"role": "system", "content": system_prompt}]
     messages += HISTORY
     messages.append({"role": "user", "content": user_message})
 
     try:
-        response = client.chat.completions.create(
-            model=MODEL,
-            messages=messages,
-            temperature=0.7,
-            max_tokens=1024,
-        )
+        attempts = 0
+        while True:
+            try:
+                response = client.chat.completions.create(
+                    model=MODEL,
+                    messages=messages,
+                    temperature=0.7,
+                    max_tokens=1024,
+                )
+                break
+            except Exception:
+                # Retry transient Groq API failures (e.g. rate limits) with backoff
+                attempts += 1
+                if attempts >= 3:
+                    raise
+                time.sleep(2**attempts)
         reply = response.choices[0].message.content
     except Exception as exc:  # surface any upstream error to the UI
         return jsonify({"error": f"Groq API error: {exc}"}), 502
