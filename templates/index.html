@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Personal Chatbot</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar: what the bot knows about you -->
+    <aside class="sidebar">
+      <div class="logo">🤖</div>
+      <h2>My Chatbot</h2>
+      <p class="tagline">Ask it anything about you.</p>
+
+      <hr>
+
+      <h3>🧠 Bot's knowledge</h3>
+      <div class="info-box">
+        {% if personal_info %}
+          <pre>{{ personal_info }}</pre>
+        {% else %}
+          <p class="hint">No info yet.<br>Edit <code>MY_INFO.md</code> in the project folder.</p>
+        {% endif %}
+      </div>
+      <p class="hint small">Edit <code>MY_INFO.md</code> to change what the bot knows — no restart needed.</p>
+
+      <button id="reset-btn" class="reset-btn" type="button">🗑️ Reset conversation</button>
+    </aside>
+
+    <!-- Chat area -->
+    <main class="chat">
+      <header class="chat-header">
+        <h1>💬 Personal Assistant</h1>
+        <span class="status-dot" aria-hidden="true"></span>
+        <span class="status-text">online</span>
+      </header>
+
+      <div id="messages" class="messages"></div>
+
+      <div id="typing" class="typing" aria-label="Bot is typing">
+        <div class="avatar" aria-hidden="true">🤖</div>
+        <div class="bubble"><i></i><i></i><i></i></div>
+      </div>
+
+      <form id="chat-form" class="chat-form" autocomplete="off">
+        <input
+          id="chat-input"
+          type="text"
+          placeholder="Type your message…"
+          maxlength="2000"
+          required
+        >
+        <button id="send-btn" type="submit" aria-label="Send message">➤</button>
+      </form>
+    </main>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
