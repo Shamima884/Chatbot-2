@@ -36,7 +36,7 @@ def load_knowledge_base() -> str:
 
 # Groq client is created lazily inside the request handler so the app always
 # starts, even if GROQ_API_KEY is temporarily unset. Model comes from .env.
-MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+DEFAULT_MODEL = "groq/compound"
 
 # In-memory conversation history (last 20 messages = 10 turns)
 HISTORY: list[dict[str, str]] = []
@@ -71,11 +71,12 @@ def chat():
 
     try:
         client = Groq(api_key=api_key)
+        model = os.getenv("GROQ_MODEL") or DEFAULT_MODEL
         attempts = 0
         while True:
             try:
                 response = client.chat.completions.create(
-                    model=MODEL,
+                    model=model,
                     messages=messages,
                     temperature=0.7,
                     max_tokens=1024,
