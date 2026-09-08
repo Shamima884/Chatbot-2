@@ -3,44 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TMMCH Chatbot</title>
+  <title>TMMCH Virtual Assistant</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
   <div class="app">
-    <!-- Sidebar: what the bot knows -->
-    <aside class="sidebar">
-      <div class="logo">🤖</div>
-      <h2>TMMCH Chatbot</h2>
-      <p class="tagline">Ask it anything about TMMCH.</p>
-
-      <hr>
-
-      <h3>🧠 Bot's knowledge</h3>
-      <div class="info-box">
-        {% if knowledge %}
-          <pre>{{ knowledge }}</pre>
-        {% else %}
-          <p class="hint">No info yet.<br>Edit <code>MY_INFO.md</code> in the project folder.</p>
-        {% endif %}
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-badge">T</div>
+        <div class="brand-text">
+          <h1>TMMCH Virtual Assistant</h1>
+          <p>Tairunnessa Memorial Medical College &amp; Hospital</p>
+        </div>
       </div>
-      <p class="hint small">Edit <code>MY_INFO.md</code> to change what the bot knows — no restart needed.</p>
+      <div class="topbar-right">
+        <span class="status"><span class="status-dot"></span>Online</span>
+        <button id="reset-btn" class="icon-btn" type="button" title="Start a new conversation">&#8634;</button>
+      </div>
+    </header>
 
-      <button id="reset-btn" class="reset-btn" type="button">🗑️ Reset conversation</button>
-    </aside>
-
-    <!-- Chat area -->
     <main class="chat">
-      <header class="chat-header">
-        <h1>💬 TMMCH Assistant</h1>
-        <span class="status-dot" aria-hidden="true"></span>
-        <span class="status-text">online</span>
-      </header>
-
       <div id="messages" class="messages"></div>
 
-      <div id="typing" class="typing" aria-label="Bot is typing">
-        <div class="avatar" aria-hidden="true">🤖</div>
+      <div id="typing" class="typing" aria-label="Assistant is typing">
+        <div class="avatar" aria-hidden="true">T</div>
         <div class="bubble"><i></i><i></i><i></i></div>
       </div>
 
@@ -48,12 +34,14 @@
         <input
           id="chat-input"
           type="text"
-          placeholder="Type your message…"
-          maxlength="2000"
+          placeholder="Ask about admissions, departments, services…"
+          maxlength="1000"
           required
         >
-        <button id="send-btn" type="submit" aria-label="Send message">➤</button>
+        <button id="send-btn" type="submit" aria-label="Send message">&#10148;</button>
       </form>
+
+      <footer class="chat-footer">Tairunnessa Memorial Medical College &amp; Hospital &mdash; Virtual Assistant</footer>
     </main>
   </div>
 

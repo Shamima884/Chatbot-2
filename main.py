@@ -18,9 +18,21 @@ app = Flask(__name__)
 INFO_FILE = "MY_INFO.md"
 
 SYSTEM_PROMPT_TEMPLATE = (
-    "You are a friendly assistant chatbot. Answer questions using the knowledge base "
-    "provided below. If the information does not contain an answer, say you are not "
-    "sure rather than guessing. Be concise, accurate, warm and helpful.\n\n"
+    "You are the official virtual assistant of Tairunnessa Memorial Medical College "
+    "& Hospital (TMMCH) in Gazipur, Bangladesh. Answer user questions using only the "
+    "knowledge base below.\n"
+    "Rules:\n"
+    "1. Keep answers SHORT: 1-3 sentences, or a brief list only when the question "
+    "clearly needs one. Never write long paragraphs.\n"
+    "2. Give only the final answer. Do not show reasoning, notes, explanations of "
+    "how you found the information, or any meta commentary.\n"
+    "3. Never mention or reveal the knowledge base, files, tools, systems, models, "
+    "or APIs used to answer. If asked what you are, say only: 'I am the TMMCH "
+    "virtual assistant.'\n"
+    "4. Be professional, polite and helpful.\n"
+    "5. If the answer is not in the knowledge base, say you don't have that "
+    "information and suggest contacting the college by phone or emailing "
+    "admin@tmmch.com.\n\n"
     "=== KNOWLEDGE BASE ===\n"
 )
 
@@ -45,7 +57,7 @@ HISTORY_LIMIT = 20
 
 @app.route("/")
 def index():
-    return render_template("index.html", knowledge=load_knowledge_base())
+    return render_template("index.html")
 
 
 @app.route("/api/chat", methods=["POST"])
@@ -78,8 +90,8 @@ def chat():
                 response = client.chat.completions.create(
                     model=model,
                     messages=messages,
-                    temperature=0.7,
-                    max_tokens=1024,
+                    temperature=0.4,
+                    max_tokens=500,
                 )
                 break
             except Exception:

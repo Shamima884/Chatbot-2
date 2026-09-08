@@ -1,4 +1,4 @@
-/* Personal chatbot UI logic */
+/* TMMCH Virtual Assistant — UI logic */
 "use strict";
 
 const form = document.getElementById("chat-form");
@@ -42,7 +42,7 @@ function formatMessage(text) {
 function addMessage(role, content) {
   const message = document.createElement("div");
   message.className = `message ${role}`;
-  const avatar = role === "user" ? "🙂" : "🤖";
+  const avatar = role === "user" ? "👤" : "T";
   const body = role === "assistant" ? formatMessage(content) : escapeHtml(content);
   message.innerHTML = `
     <div class="avatar" aria-hidden="true">${avatar}</div>
@@ -104,7 +104,7 @@ async function resetConversation() {
   }
   addMessage(
     "assistant",
-    "Conversation reset. 👋 Ask me anything about **TMMCH** — or edit `MY_INFO.md` to teach me more!"
+    "New conversation started. How may I help you?"
   );
 }
 
@@ -121,7 +121,5 @@ resetBtn.addEventListener("click", resetConversation);
 
 addMessage(
   "assistant",
-  "Hi! 👋 I'm the TMMCH assistant, powered by Groq. Ask me anything about **Tairunnessa " +
-    "Memorial Medical College & Hospital** — admissions, departments, hospital services, " +
-    "contacts and more. Edit `MY_INFO.md` to teach me new things."
+  "Welcome to **TMMCH**. I'm the college virtual assistant — ask me about admissions, departments, hospital services or contact details."
 );
